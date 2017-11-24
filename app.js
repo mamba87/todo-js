@@ -53,7 +53,8 @@ function changeStatus() {
         status = 'new'
     }
 
-    row.classList.replace(oldStatus, status); //not working in Chrome ver. lower than 61
+    row.classList.remove(oldStatus);
+    row.classList.add(status);
     let id = row.id.substring(2);
     for (let i = 0; i < tasks.length; i++) {
         if (tasks[i].id === parseInt(id, 10)) {
@@ -89,7 +90,7 @@ function createTaskHTML(id, value, status) {
     buttonDone.appendChild(buttonDoneText);
 
     let buttonRemove = document.createElement('button');
-    let buttonRemoveText = document.createTextNode('usun');
+    let buttonRemoveText = document.createTextNode('delete');
     buttonRemove.addEventListener('click', removeTask);
     buttonRemove.appendChild(buttonRemoveText);
 
