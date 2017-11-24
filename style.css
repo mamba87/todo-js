@@ -1,0 +1,13 @@
+.box-form {
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.new{
+    background: blue;
+}
+
+.done{
+    background: red;
+}

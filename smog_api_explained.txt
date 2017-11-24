@@ -1,0 +1,73 @@
+From lists of cities we choose one, for example Kraków, ul. Dietla and note down the id - this is the station id.
+
+List of cities:
+http://api.gios.gov.pl/pjp-api/rest/station/findAll
+
+[   ...,
+    {
+		"id" : 10121,
+		"stationName" : "Kraków, ul. Dietla",
+		"dateStart" : "2016-01-01 00:00:00",
+		"dateEnd" : null,
+		"gegrLat" : "50.057447",
+		"gegrLon" : "19.946008",
+		"city" : {
+			"id" : 415,
+			"name" : "Kraków",
+			"commune" : {
+				"communeName" : "Kraków",
+				"districtName" : "Kraków",
+				"provinceName" : "MAŁOPOLSKIE"
+			}
+		},
+		"addressStreet" : "ul. Dietla"
+	},
+	...
+]
+
+"id" : 10121 - staion id of Kraków, ul. Dietla
+
+We use this station id in query that returns the air quality for this station for current day:
+
+Air quality for the station with stationId
+http://api.gios.gov.pl/pjp-api/rest/aqindex/getIndex/{{stationId}}
+
+http://api.gios.gov.pl/pjp-api/rest/aqindex/getIndex/10121
+
+{
+	"id" : 10121,
+	"stCalcDate" : "2017-11-24 10:20:16",
+	"stIndexLevel" : {
+		"id" : 2,
+		"indexLevelName" : "Umiarkowany"
+	},
+	"stSourceDataDate" : "2017-11-24 09:00:00",
+	"so2CalcDate" : null,
+	"so2IndexLevel" : null,
+	"so2SourceDataDate" : null,
+	"no2CalcDate" : "2017-11-24 10:20:16",
+	"no2IndexLevel" : {
+		"id" : 1,
+		"indexLevelName" : "Dobry"
+	},
+	"no2SourceDataDate" : "2017-11-24 10:00:00",
+	"coCalcDate" : null,
+	"coIndexLevel" : null,
+	"coSourceDataDate" : null,
+	"pm10CalcDate" : "2017-11-24 10:20:16",
+	"pm10IndexLevel" : {
+		"id" : 2,
+		"indexLevelName" : "Umiarkowany"
+	},
+	"pm10SourceDataDate" : "2017-11-24 09:00:00",
+	"pm25CalcDate" : null,
+	"pm25IndexLevel" : null,
+	"pm25SourceDataDate" : null,
+	"o3CalcDate" : null,
+	"o3IndexLevel" : null,
+	"o3SourceDataDate" : null,
+	"c6h6CalcDate" : null,
+	"c6h6IndexLevel" : null,
+	"c6h6SourceDataDate" : null
+}
+
