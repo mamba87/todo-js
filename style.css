@@ -1,13 +1,69 @@
-.box-form {
-    display: flex;
-    padding: 20px;
-    flex-direction: column;
+body {
+    font-family: Verdana;
 }
 
-.new{
+.container {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.input-wrapper {
+    display: flex;
+    padding: 15px;
+    background: lightgray;
+    margin-bottom: 10px;
+}
+
+label {
+    margin-top: 5px;
+    margin-right: 6px;
+}
+
+input {
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+    padding: 5px 10px;
+    font-size: 16px;
+    margin-right: 5px;
+    flex-grow: 1;
+}
+
+#submitButton {
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: darkblue;
+    color: white;
+    border: none;
+}
+
+#submitButton:hover {
     background: blue;
 }
 
-.done{
-    background: red;
+#taskList {
+    background: whitesmoke;
+    padding: 20px;
+    list-style: none;
+}
+
+#taskList li {
+    padding-top: 11px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgrey;
+}
+
+#taskList li.done {
+    text-decoration: line-through;
+    color: #e8e8e8;
+}
+
+#taskList button {
+    float: right;
+    padding: 4px 10px;
+    font-size: 13px;
+    background: cadetblue;
+    color: white;
+    border: none;
+    margin-top: -3px;
 }

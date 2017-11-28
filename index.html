@@ -1,19 +1,27 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="pl">
 <head>
-    <title>ToDo app</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!--style-starter will be used in participant's workshop-starter-->
+    <!--<link rel="stylesheet" href="style-starter.css">-->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<button id="cleanLocalStorage">Clean localstorage</button>
-<form class="box-form">
-    <label>Task to do</label>
-    <input type="text" name="" id="taskInput">
-    <button id="submitButton">Add task</button>
-</form>
 
-<ul id="taskList" class="box-tasks"></ul>
+<div class="container">
+    <div class="input-wrapper">
+        <label for="taskNameInput">Task name:</label>
+        <input type="text" id="taskNameInput">
+        <button id="submitButton">Add task</button>
+    </div>
+
+    <div class="tasks-wrapper">
+        <ul id="taskList"></ul>
+    </div>
+</div>
 
 <script src="app.js" type="text/javascript"></script>
+
 </body>
 </html>

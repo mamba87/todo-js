@@ -1,154 +1,62 @@
-// get reference
-const submitButton = document.getElementById('submitButton');
-const inputTask = document.getElementById('taskInput');
-const taskList = document.getElementById('taskList');
-const cleanLocalStorage = document.getElementById('cleanLocalStorage');
+var taskNameInput = document.getElementById("taskNameInput"),
+    taskList = document.getElementById("taskList"),
+    submitButton = document.getElementById("submitButton");
 
-let tasks = [];
+submitButton.addEventListener('click', function () {
+    createTask();
+});
 
-showTasks();
-checkAirQualityAndColourBackground();
+taskNameInput.addEventListener('keypress', function () {
+    var keyCode = event.keyCode;
 
-submitButton.addEventListener('click', function (e) {
-    e.preventDefault();
-    let value = inputTask.value;
-    if (validate(value)) {
-        addTask(value);
+    if (keyCode === 13) {
+        createTask();
     }
 });
 
-function addTask(value) {
-    let task = {
-        id: tasks.length,
-        value: value,
-        status: 'new'
-    };
-    tasks.push(task);
-    saveToLocalStorage();
+function createTask() {
+    var taskName = taskNameInput.value;
 
-    let node = createTaskHTML(task.id, task.value, task.status);
-    taskList.appendChild(node);
+    if (validateName(taskName)) {
+        createTaskRowAndAddToHtml(taskName);
+    } else {
+        alert("Enter a task name (min. length 3 chars)");
+    }
+
+    taskNameInput.value = ''
 }
 
-function removeTask() {
-    let row = this.parentElement;
-    let id = row.id.substring(2);
-    for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].id === parseInt(id, 10)) {
-            tasks.splice(i, 1);
-        }
-    }
-    saveToLocalStorage();
-    showTasks();
+function createTaskRowAndAddToHtml(taskName) {
+    var liElement = document.createElement('li'),
+        liTextElement = document.createTextNode(taskName),
+        buttonElement = document.createElement('button'),
+        buttonTextElement = document.createTextNode('Done');
+
+    liElement.appendChild(liTextElement);
+    buttonElement.appendChild(buttonTextElement);
+    liElement.appendChild(buttonElement);
+    taskList.appendChild(liElement);
+    buttonElement.addEventListener('click', toggleTaskStatus);
 }
 
-function changeStatus() {
-    let row = this.parentElement;
-    let oldStatus = row.classList[0];
-    let status = 'new';
+function toggleTaskStatus() {
+    var task = this.parentElement,
+        currentStatus = task.className,
+        buttonText = this.innerText;
 
-    if (oldStatus === 'new'){
-        status = 'done'
-    }else{
-        status = 'new'
-    }
-
-    row.classList.remove(oldStatus);
-    row.classList.add(status);
-    let id = row.id.substring(2);
-    for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].id === parseInt(id, 10)) {
-            tasks[i].status = status;
-        }
-    }
-    saveToLocalStorage();
-}
-
-function showTasks() {
-    if (localStorage.getItem('tasks') !== null && localStorage.getItem('tasks') !== '') {
-        tasks = JSON.parse(localStorage.getItem('tasks'));
-    }
-    while (taskList.hasChildNodes()) {
-        taskList.removeChild(taskList.lastChild);
-    }
-    for (let i = 0; i < tasks.length; i++) {
-        let node = createTaskHTML(tasks[i].id, tasks[i].value, tasks[i].status);
-        taskList.appendChild(node);
+    if (currentStatus === 'done') {
+        task.className = '';
+        this.innerText = 'Done';
+    } else {
+        task.className = 'done';
+        this.innerText = 'Uncheck';
     }
 }
 
-function createTaskHTML(id, value, status) {
-    let row = document.createElement('li');
-    let rowText = document.createTextNode(value);
-    row.classList.add(status);
-    row.id = 'id' + id;
-    row.appendChild(rowText);
-
-    let buttonDone = document.createElement('button');
-    let buttonDoneText = document.createTextNode('done');
-    buttonDone.addEventListener('click', changeStatus);
-    buttonDone.appendChild(buttonDoneText);
-
-    let buttonRemove = document.createElement('button');
-    let buttonRemoveText = document.createTextNode('delete');
-    buttonRemove.addEventListener('click', removeTask);
-    buttonRemove.appendChild(buttonRemoveText);
-
-    row.appendChild(buttonDone);
-    row.appendChild(buttonRemove);
-
-    return row;
-}
-
-function saveToLocalStorage(){
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-function validate(value) {
-    if (value === '') {
-        alert('Enter the task name');
+function validateName(taskName) {
+    if (taskName.length >= 3) {
+        return true;
+    } else {
         return false;
     }
-    return true;
 }
-
-function checkAirQualityAndColourBackground() {
-    var proxyURL = 'https://cors-anywhere.herokuapp.com';
-    
-    var krakowDietlaAirQualityUrl = "http://api.gios.gov.pl/pjp-api/rest/aqindex/getIndex/10121";
-    var url = proxyURL + "/" + krakowDietlaAirQualityUrl;
-
-    fetch(url)
-        .then(function(response) {
-            return response.json();
-        }).then(function(json) {
-            let indexLevelName = json.pm10IndexLevel.indexLevelName;
-            colourBackground(indexLevelName);
-        }).catch(function(err) {
-            console.log("something went wrong", + err);
-        });
-}
-
-function colourBackground(indexLevelName) {
-    if(indexLevelName === "Bardzo dobry"){
-        document.body.style.backgroundColor = "green";
-    } else if(indexLevelName === "Dobry"){
-        document.body.style.backgroundColor = "green";
-    } else if(indexLevelName === "Umiarkowany"){
-        document.body.style.backgroundColor = "yellow";
-    } else if(indexLevelName=== "Dostateczny"){
-        document.body.style.backgroundColor = "orange";
-    } else if(indexLevelName === "Zły"){
-        document.body.style.backgroundColor = "red";
-    } else if(indexLevelName === "Bardzo zły"){
-        document.body.style.backgroundColor = "red";
-    } else if(indexLevelName === "Brak indeksu"){
-        document.body.style.backgroundColor = "white";
-    }
-}
-
-cleanLocalStorage.addEventListener('click', function () {
-    tasks = [];
-    localStorage.setItem('tasks', []);
-    showTasks();
-});
