@@ -1,0 +1,28 @@
+h1 {
+    background-color: green;
+}
+
+h2 {
+    color: red;
+}
+
+h3 {
+    border: 2px solid;
+}
+
+h4 {
+    border: 1px solid;
+    border-color: aqua;
+}
+
+p {
+    padding: 10px;
+}
+
+li {
+    list-style-image: none;
+}
+
+img {
+    width: 100px;
+}
